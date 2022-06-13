@@ -1,6 +1,7 @@
 // get QQ website status
 import axios from 'axios'
-import { unlinkSync, writeFileSync } from 'fs'
+import { writeFileSync } from 'fs'
+import { rm } from 'fs/promises'
 
 const check = async (name: string, url: string) => {
   const response = await axios
@@ -26,7 +27,10 @@ const check = async (name: string, url: string) => {
 
   const currentDateTime = `${now.getFullYear()}-${
     now.getMonth() + 1
-  }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`
+  }-${now.getDate()} ${now.getHours()}:${now
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`
 
   const resultText = ok ? '没倒闭' : '倒闭了'
 
@@ -42,7 +46,9 @@ const check = async (name: string, url: string) => {
 }
 
 async function main() {
-  unlinkSync('./readme.md')
+  await rm('./readme.md', {
+    force: true,
+  })
   await Promise.all([
     check('腾讯', 'https://www.qq.com'),
     check('微博', 'https://weibo.com'),

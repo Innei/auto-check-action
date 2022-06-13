@@ -6,7 +6,6 @@ name: Node.js CI
 on:
   push:
     branches:
-      - master
       - main
   schedule:
     - cron: '0 0 * * *'
@@ -46,21 +45,24 @@ jobs:
           version: 7.x.x
           run_install: true
 
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v5
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          git_user_signingkey: true
-          git_commit_gpgsign: true
+      # - name: Import GPG key
+      #   id: import_gpg
+      #   uses: crazy-max/ghaction-import-gpg@v5
+      #   with:
+      #     gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      #     passphrase: ${{ secrets.PASSPHRASE }}
+      #     git_user_signingkey: true
+      #     git_commit_gpgsign: true
 
       - name: Run
         run: |
           npm run build
           sh ./commit.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push
         uses: mikeal/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: main
