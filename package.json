@@ -1,0 +1,17 @@
+{
+  "name": "auto-commit-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esno index.ts"
+  },
+  "keywords": [],
+  "author": "Innei",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "17.0.42",
+    "axios": "0.27.2",
+    "esno": "0.16.3"
+  }
+}
